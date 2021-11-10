@@ -22,7 +22,7 @@ describe('Promise', () => {
     assert.isObject(Promise.prototype);
   });
 
-  it("new Promise() 如果接受的不是一个函数就报错", () => {
+  it('new Promise() 如果接受的不是一个函数就报错', () => {
     // assert.throw(fn) 的作用：如果 fn 报错，控制台就不报错。如果 fn 不报错，控制台就报错。
     assert.throw(() => {
       // @ts-ignore
@@ -37,4 +37,11 @@ describe('Promise', () => {
       new Promise(false);
     });
   });
+
+  it('new Promise(fn) 会生成一个对象，对象有 then 方法', () => {
+    const promise = new Promise(() => {});
+    // @ts-ignore
+    assert.isFunction(promise.then);
+  });
+
 });

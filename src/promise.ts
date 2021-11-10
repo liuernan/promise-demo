@@ -3,8 +3,10 @@ class myPromise {
     if (typeof fn !== 'function') {
       throw new Error('Promise must have a function as argument');
     }
-    fn()
+    fn();
   }
+
+  then() {}
 }
 
 export default myPromise;
