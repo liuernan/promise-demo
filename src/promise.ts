@@ -3,7 +3,11 @@ class myPromise {
     if (typeof fn !== 'function') {
       throw new Error('Promise must have a function as argument');
     }
-    fn();
+
+    const resolve = () => {};
+    const reject = () => {};
+
+    fn(resolve, reject);
   }
 
   then() {}

@@ -45,9 +45,17 @@ describe('Promise', () => {
     assert.isFunction(promise.then);
   });
 
-  it("new Promise(fn) 中的 fn 立即执行", () => {
+  it('new Promise(fn) 中的 fn 立即执行', () => {
     let fn = sinon.fake();
     new Promise(fn);
     assert(fn.called);
+  });
+
+  it('new Promise(fn) 中的 fn 执行的时候接受 resolve 和 reject 两个函数', done => {
+    new Promise((resolve, reject) => {
+      assert.isFunction(resolve);
+      assert.isFunction(reject);
+      done();
+    });
   });
 });
