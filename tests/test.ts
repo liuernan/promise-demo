@@ -1,4 +1,5 @@
 import * as chai from 'chai';
+import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import Promise from '../src/promise';
 
@@ -44,4 +45,9 @@ describe('Promise', () => {
     assert.isFunction(promise.then);
   });
 
+  it("new Promise(fn) 中的 fn 立即执行", () => {
+    let fn = sinon.fake();
+    new Promise(fn);
+    assert(fn.called);
+  });
 });
