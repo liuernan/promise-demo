@@ -12,7 +12,7 @@ class myPromise {
   resolve() {
     setTimeout(() => {
       this.callbacks.forEach((handler) => {
-        handler[0].call();
+        typeof handler[0] === 'function' && handler[0].call();
       });
     }, 0);
   }
@@ -20,15 +20,16 @@ class myPromise {
   reject() {
     setTimeout(() => {
       this.callbacks.forEach((handler) => {
-        handler[1].call();
+        typeof handler[1] === 'function' && handler[1].call();
       });
     }, 0);
   }
 
   then(resolveHandler?, rejectedHandler?) {
     const handler = [null, null];
-    handler[0] = resolveHandler;
-    handler[1] = rejectedHandler;
+
+    typeof resolveHandler === 'function' && (handler[0] = resolveHandler);
+    typeof rejectedHandler === 'function' && (handler[1] = rejectedHandler);
     this.callbacks.push(handler);
   }
 }

@@ -86,4 +86,34 @@ describe('Promise', () => {
 
     promise.then(null, fail);
   });
+
+  it('promise.then(onFulfilled, onRejected) 中的 onFulfilled 和 onRejected 都是非必传', () => {
+    const promise = new Promise((resolve) => {
+      resolve();
+    });
+
+    promise.then();
+
+    assert(1 === 1);
+  });
+
+  it('promise.then(onFulfilled, onRejected) 中的 onFulfilled 如果不是一个函数，就忽略', () => {
+    const promise = new Promise((resolve) => {
+      resolve();
+    });
+
+    promise.then(false);
+
+    assert(1 === 1);
+  });
+
+  it('promise.then(onFulfilled, onRejected) 中的 onRejected 如果不是一个函数，就忽略', () => {
+    const promise = new Promise((resolve, reject) => {
+      reject();
+    });
+
+    promise.then(false, false);
+
+    assert(1 === 1);
+  });
 });
