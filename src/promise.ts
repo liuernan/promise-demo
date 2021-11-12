@@ -1,4 +1,5 @@
 class myPromise {
+  state = 'pending';
   callbacks = [];
 
   constructor(fn) {

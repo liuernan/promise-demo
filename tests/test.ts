@@ -59,6 +59,14 @@ describe('Promise', () => {
     });
   });
 
+  it('Promise 的初始状态是 pending', () => {
+    const promise = new Promise(() => {
+
+    });
+
+    assert.strictEqual('pending', promise.state);
+  });
+
   it('promise.then(success) 中的 success 会在 resolve 被调用的时候执行', (done) => {
     const success = sinon.fake();
     const promise = new Promise((resolve) => {
