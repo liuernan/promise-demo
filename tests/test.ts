@@ -87,6 +87,28 @@ describe('Promise', () => {
     }, 0);
   });
 
+  it('new Promise(fn) 状态变成 fulfilled 就不能再改变，也就是不能再调用 reject 了', (done) => {
+    const promise = new Promise((resolve, reject) => {
+      resolve();
+      reject();
+    });
+    setTimeout(() => {
+      assert.strictEqual('fulfilled', promise.state);
+      done();
+    }, 0);
+  });
+
+  it('new Promise(fn) 状态变成 rejected 就不能再改变，也就是不能再调用 resolve 了', (done) => {
+    const promise = new Promise((resolve, reject) => {
+      reject();
+      resolve();
+    });
+    setTimeout(() => {
+      assert.strictEqual('rejected', promise.state);
+      done();
+    }, 0);
+  });
+
   it('promise.then(success) 中的 success 会在 resolve 被调用的时候执行', (done) => {
     const success = sinon.fake();
     const promise = new Promise((resolve) => {
