@@ -109,7 +109,7 @@ describe('Promise', () => {
     }, 0);
   });
 
-  it('promise.then(success) 中的 success 会在 resolve 被调用的时候执行', (done) => {
+  it('promise.then(success) 中的 success 会在且仅在 resolve 被调用之后执行', (done) => {
     const success = sinon.fake();
     const promise = new Promise((resolve) => {
       assert(success.notCalled);
@@ -123,7 +123,7 @@ describe('Promise', () => {
     promise.then(success);
   });
 
-  it('promise.then(null, fail) 中的 fail 会在 reject 被调用的时候执行', (done) => {
+  it('promise.then(null, fail) 中的 fail 会在且仅在 reject 被调用之后执行', (done) => {
     const fail = sinon.fake();
     const promise = new Promise((resolve, reject) => {
       assert(fail.notCalled);
