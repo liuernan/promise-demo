@@ -226,4 +226,26 @@ describe('Promise', () => {
       assert(onRejected.called);
     }, 0);
   });
+
+  it('promise.then(onFulfilled, onRejected) 中的 onFulfilled 调用时没有 this', (done) => {
+    const promise = new Promise((resolve) => {
+      resolve();
+    });
+    promise.then(function () {
+      'use strict';
+      assert(this === null);
+      done();
+    });
+  });
+
+  it('promise.then(onFulfilled, onRejected) 中的 onRejected 调用时没有 this', (done) => {
+    const promise = new Promise((resolve, reject) => {
+      reject();
+    });
+    promise.then(null, function () {
+      'use strict';
+      assert(this === null);
+      done();
+    });
+  });
 });
