@@ -67,6 +67,26 @@ describe('Promise', () => {
     assert.strictEqual('pending', promise.state);
   });
 
+  it('new Promise(fn) 中的 fn 执行的时候调用了 resolve，这个 Promise 的状态变成 fulfilled', (done) => {
+    const promise = new Promise((resolve) => {
+      resolve();
+    });
+    setTimeout(() => {
+      assert.strictEqual('fulfilled', promise.state);
+      done();
+    }, 0);
+  });
+
+  it('new Promise(fn) 中的 fn 执行的时候调用了 reject，这个 Promise 的状态变成 rejected', (done) => {
+    const promise = new Promise((resolve, reject) => {
+      reject();
+    });
+    setTimeout(() => {
+      assert.strictEqual('rejected', promise.state);
+      done();
+    }, 0);
+  });
+
   it('promise.then(success) 中的 success 会在 resolve 被调用的时候执行', (done) => {
     const success = sinon.fake();
     const promise = new Promise((resolve) => {

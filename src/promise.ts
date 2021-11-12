@@ -11,6 +11,7 @@ class myPromise {
   }
 
   resolve() {
+    this.state = 'fulfilled';
     setTimeout(() => {
       this.callbacks.forEach((handler) => {
         typeof handler[0] === 'function' && handler[0].call();
@@ -19,6 +20,7 @@ class myPromise {
   }
 
   reject() {
+    this.state = 'rejected';
     setTimeout(() => {
       this.callbacks.forEach((handler) => {
         typeof handler[1] === 'function' && handler[1].call();
