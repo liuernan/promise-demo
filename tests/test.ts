@@ -248,4 +248,43 @@ describe('Promise', () => {
       done();
     });
   });
+
+  it('promise.then(onFulfilled, onRejected) 中的 then 可以在同一个 promise 里被多次调用，多个 onFulfilled 按顺序执行', done => {
+    const promise = new Promise(resolve => {
+      resolve();
+    });
+    const callbacks = [sinon.fake(), sinon.fake(), sinon.fake()];
+
+    promise.then(callbacks[0]).then(callbacks[1]).then(callbacks[2]);
+    // noinspection DuplicatedCode
+    setTimeout(() => {
+      assert(callbacks[0].called);
+      assert(callbacks[1].called);
+      assert(callbacks[2].called);
+      assert(callbacks[1].calledAfter(callbacks[0]));
+      assert(callbacks[2].calledAfter(callbacks[1]));
+      done();
+    }, 0);
+  });
+
+  it('promise.then(onFulfilled, onRejected) 中的 then 可以在同一个 promise 里被多次调用，多个 onRejected 按顺序执行', done => {
+    const promise = new Promise((resolve, reject) => {
+      reject();
+    });
+    const callbacks = [sinon.fake(), sinon.fake(), sinon.fake()];
+
+    promise.then(null, callbacks[0]);
+    promise.then(null, callbacks[1]);
+    promise.then(null, callbacks[2]);
+    // noinspection DuplicatedCode
+    setTimeout(() => {
+      assert(callbacks[0].called);
+      assert(callbacks[1].called);
+      assert(callbacks[2].called);
+      assert(callbacks[1].calledAfter(callbacks[0]));
+      assert(callbacks[2].calledAfter(callbacks[1]));
+      done();
+    }, 0);
+  });
+
 });

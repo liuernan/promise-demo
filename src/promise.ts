@@ -42,6 +42,8 @@ class myPromise {
     typeof resolveHandler === 'function' && (handler[0] = resolveHandler);
     typeof rejectedHandler === 'function' && (handler[1] = rejectedHandler);
     this.callbacks.push(handler);
+
+    return this;
   }
 }
 
