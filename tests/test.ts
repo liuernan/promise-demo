@@ -199,7 +199,7 @@ describe('Promise', () => {
     assert(1 === 1);
   });
 
-  it('promise.then(onFulfilled, onRejected) 当前的执行环境上下文未执行完成前，不能执行 then 里面的俩函数', () => {
+  it('promise.then(onFulfilled, onRejected) 当前的执行环境上下文未执行完成前，不能执行 then 里面的 onFulfilled', () => {
     const onFulfilled = sinon.fake();
     const promise = new Promise((resolve) => {
       resolve();
@@ -210,6 +210,20 @@ describe('Promise', () => {
     assert(onFulfilled.notCalled);
     setTimeout(() => {
       assert(onFulfilled.called);
+    }, 0);
+  });
+
+  it('promise.then(onFulfilled, onRejected) 当前的执行环境上下文未执行完成前，不能执行 then 里面的 onRejected', () => {
+    const onRejected = sinon.fake();
+    const promise = new Promise((resolve, reject) => {
+      reject();
+    });
+
+    promise.then(null, onRejected);
+
+    assert(onRejected.notCalled);
+    setTimeout(() => {
+      assert(onRejected.called);
     }, 0);
   });
 });
