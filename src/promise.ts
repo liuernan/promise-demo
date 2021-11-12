@@ -10,27 +10,27 @@ class myPromise {
     fn(this.resolve.bind(this), this.reject.bind(this));
   }
 
-  resolve() {
+  resolve(value) {
     if ('pending' !== this.state) {
       return;
     } else {
       this.state = 'fulfilled';
       setTimeout(() => {
         this.callbacks.forEach((handler) => {
-          typeof handler[0] === 'function' && handler[0].call();
+          typeof handler[0] === 'function' && handler[0].call(null, value);
         });
       }, 0);
     }
   }
 
-  reject() {
+  reject(reason) {
     if ('pending' !== this.state) {
       return;
     } else {
       this.state = 'rejected';
       setTimeout(() => {
         this.callbacks.forEach((handler) => {
-          typeof handler[1] === 'function' && handler[1].call();
+          typeof handler[1] === 'function' && handler[1].call(null, reason);
         });
       }, 0);
     }

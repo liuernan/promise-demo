@@ -123,6 +123,22 @@ describe('Promise', () => {
     promise.then(success);
   });
 
+  it('promise.then(onFulfilled) 中的 onFulfilled 接受 resolve 传来的参数，且只能被调用一次', (done) => {
+    const onFulfilled = sinon.fake();
+    const promise = new Promise((resolve) => {
+      assert(onFulfilled.notCalled);
+      resolve('1st');
+      resolve('2nd');
+      setTimeout(() => {
+        assert.equal(1, onFulfilled.callCount);
+        assert(onFulfilled.calledWith('1st'));
+        done();
+      }, 0);
+    });
+
+    promise.then(onFulfilled);
+  });
+
   it('promise.then(null, fail) 中的 fail 会在且仅在 reject 被调用之后执行', (done) => {
     const fail = sinon.fake();
     const promise = new Promise((resolve, reject) => {
@@ -135,6 +151,22 @@ describe('Promise', () => {
     });
 
     promise.then(null, fail);
+  });
+
+  it('promise.then(onFulfilled, onRejected) 中的 onRejected 接受 reject 传来的参数，且只能被调用一次', (done) => {
+    const onRejected = sinon.fake();
+    const promise = new Promise((resolve, reject) => {
+      assert(onRejected.notCalled);
+      reject('1st');
+      reject('2nd');
+      setTimeout(() => {
+        assert.equal(1, onRejected.callCount);
+        assert(onRejected.calledWith('1st'));
+        done();
+      }, 0);
+    });
+
+    promise.then(null, onRejected);
   });
 
   it('promise.then(onFulfilled, onRejected) 中的 onFulfilled 和 onRejected 都是非必传', () => {
